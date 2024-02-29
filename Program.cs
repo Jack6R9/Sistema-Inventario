@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SistemaInventario.AccesoDatos.Data;
+using SistemaInventario.AccesoDatos.Repositorio;
+using SistemaInventario.AccesoDatos.Repositorio.iRepositorio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+builder.Services.AddScoped<iUnidadTrabajo, UnidadTrabajo>();
 
 var app = builder.Build();
 
@@ -37,7 +41,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Inventario}/{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();
